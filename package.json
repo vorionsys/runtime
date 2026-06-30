@@ -1,0 +1,57 @@
+{
+  "name": "@vorionsys/runtime",
+  "version": "0.1.2",
+  "description": "Vorion agent runtime — trust facade, intent pipeline, proof committer, and persistent stores",
+  "keywords": ["vorion", "ai-governance", "runtime", "basis", "cognigate"],
+  "license": "Apache-2.0",
+  "author": "Vorion LLC",
+  "homepage": "https://vorion.org",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vorionsys/runtime.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vorionsys/runtime/issues"
+  },
+  "type": "module",
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+    "./trust-facade": { "types": "./dist/trust-facade.d.ts", "import": "./dist/trust-facade.js" },
+    "./intent-pipeline": { "types": "./dist/intent-pipeline.d.ts", "import": "./dist/intent-pipeline.js" },
+    "./proof-committer": { "types": "./dist/proof-committer.d.ts", "import": "./dist/proof-committer.js" },
+    "./stores": { "types": "./dist/stores.d.ts", "import": "./dist/stores.js" }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist", "README.md", "LICENSE"],
+  "sideEffects": false,
+  "engines": { "node": ">=18.0.0" },
+  "peerDependencies": {
+    "@vorionsys/basis-spec": "^1.2.0",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@vorionsys/shared-constants": "^1.0.5",
+    "better-sqlite3": "^11.0.0",
+    "pino": "^9.0.0",
+    "pino-pretty": "^11.0.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.11",
+    "@types/node": "^22.10.5",
+    "typescript": "^5.7.2",
+    "vitest": "^4.0.18"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build",
+    "pack:check": "npm pack --dry-run",
+    "changeset:version": "changeset version && npm install --package-lock-only",
+    "changeset:release": "changeset publish"
+  }
+}

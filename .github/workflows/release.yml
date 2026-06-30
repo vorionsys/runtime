@@ -1,0 +1,48 @@
+name: Release
+
+# Publishes packages whenever a Changesets "Version Packages" PR is merged to main.
+# - Builds, then either opens/updates the version PR or publishes the pending releases.
+# - Every publish carries npm provenance (Sigstore-backed, verifiable on npmjs.com).
+
+on:
+  push:
+    branches: [main]
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+permissions:
+  contents: write        # create the Version Packages PR / tags
+  pull-requests: write   # open/update that PR
+  id-token: write        # REQUIRED: OIDC token for npm provenance / trusted publishing
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # Changesets needs full history
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: "https://registry.npmjs.org"  # writes the auth line provenance needs
+
+      - run: npm ci
+
+      - run: npm run build
+
+      # Verifies registry signatures + provenance of installed deps before we publish more.
+      - run: npm audit signatures
+
+      - name: Create Release PR or publish
+        uses: changesets/action@v1
+        with:
+          version: npm run changeset:version
+          publish: npm run changeset:release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # If you use a granular automation token, keep this. If you switch the package(s)
+          # to npm Trusted Publishing (OIDC, no token), you can delete NODE_AUTH_TOKEN.
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: "true"
