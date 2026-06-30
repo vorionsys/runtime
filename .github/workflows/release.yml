@@ -42,7 +42,4 @@ jobs:
           publish: npm run changeset:release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # If you use a granular automation token, keep this. If you switch the package(s)
-          # to npm Trusted Publishing (OIDC, no token), you can delete NODE_AUTH_TOKEN.
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: "true"
