@@ -58,7 +58,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@vorionsys/shared-constants": "^1.0.5",
+    "@vorionsys/shared-constants": "^2.0.0",
     "better-sqlite3": "^11.0.0",
     "pino": "^9.0.0",
     "pino-pretty": "^11.0.0"
