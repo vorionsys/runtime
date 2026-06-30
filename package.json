@@ -1,6 +1,6 @@
 {
   "name": "@vorionsys/runtime",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Vorion agent runtime — trust facade, intent pipeline, proof committer, and persistent stores",
   "keywords": [
     "vorion",
