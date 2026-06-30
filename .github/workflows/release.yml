@@ -3,6 +3,9 @@ name: Release
 # Publishes packages whenever a Changesets "Version Packages" PR is merged to main.
 # - Builds, then either opens/updates the version PR or publishes the pending releases.
 # - Every publish carries npm provenance (Sigstore-backed, verifiable on npmjs.com).
+#
+# Auth: tokenless OIDC trusted publishing — no NPM_TOKEN stored anywhere.
+# npm handles the OIDC exchange natively (requires npm >= 11.5.1).
 
 on:
   push:
@@ -26,20 +29,30 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: "https://registry.npmjs.org"  # writes the auth line provenance needs
+          # No registry-url — prevents setup-node from writing _authToken to .npmrc,
+          # which would intercept npm's native OIDC exchange.
+
+      - name: Update npm (OIDC trusted publishing requires npm >= 11.5.1)
+        run: npm install -g npm@latest
 
       - run: npm ci
 
       - run: npm run build
 
-      # Verifies registry signatures + provenance of installed deps before we publish more.
       - run: npm audit signatures
 
-      - name: Create Release PR or publish
+      - name: Create Version PR (if changesets present)
+        id: changesets
         uses: changesets/action@v1
         with:
           version: npm run changeset:version
-          publish: npm run changeset:release
+          # publish omitted — npm publishes directly below so it owns the OIDC exchange
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to npm via OIDC (if Version PR was just merged)
+        if: steps.changesets.outputs.hasChangesets == 'false'
+        run: npx changeset publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: "true"
