@@ -28,12 +28,10 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24   # ships npm >= 11.5.1 (OIDC trusted publishing); global npm self-update is broken on current runner images
           # No registry-url — prevents setup-node from writing _authToken to .npmrc,
           # which would intercept npm's native OIDC exchange.
 
-      - name: Update npm (OIDC trusted publishing requires npm >= 11.5.1)
-        run: npm install -g npm@latest
 
       - run: npm ci
 
