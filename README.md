@@ -1,6 +1,6 @@
 # @vorionsys/runtime
 
-Orchestration layer for AI agent governance, built on the [Vorion](https://github.com/vorionsys/vorion) trust framework and aligned with the BASIS (Baseline Authority for Safe & Interoperable Systems) specification.
+Orchestration layer for AI agent governance, built on the [Vorion](https://github.com/vorionsys) trust framework and aligned with the BASIS (Baseline Authority for Safe & Interoperable Systems) specification.
 
 Combines **Gate Trust** (one-time admission control) and **Dynamic Trust** (per-action real-time scoring) into a unified, fast decision system with cryptographic proof of every governance decision.
 
@@ -10,11 +10,13 @@ Combines **Gate Trust** (one-time admission control) and **Dynamic Trust** (per-
 npm install @vorionsys/runtime
 ```
 
-**Peer dependencies** (optional, enhance functionality):
+**Peer dependency** (the canonical spec constants and formulas):
 
 ```bash
-npm install @vorionsys/atsf-core @vorionsys/contracts
+npm install @vorionsys/basis-spec
 ```
+
+> `@vorionsys/atsf-core`, previously listed here, is deprecated — do not install it.
 
 ## Quick Start
 
@@ -572,5 +574,5 @@ import type {
 
 ## Links
 
-- [Vorion Monorepo](https://github.com/vorionsys/vorion)
-- [BASIS Specification](https://github.com/vorionsys/vorion/tree/main/docs) -- Baseline Authority for Safe & Interoperable Systems
+- [Vorion Monorepo](https://github.com/vorionsys)
+- [BASIS Specification](https://github.com/vorionsys) -- Baseline Authority for Safe & Interoperable Systems
