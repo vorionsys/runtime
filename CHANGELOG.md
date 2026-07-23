@@ -1,5 +1,11 @@
 # @vorionsys/runtime
 
+## 0.1.6
+
+### Patch Changes
+
+- c946540: docs: refresh published README (registry-truth pass — dead links, deprecated install guidance)
+
 ## 0.1.5
 
 ### Patch Changes
